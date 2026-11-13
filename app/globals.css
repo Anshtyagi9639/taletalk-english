@@ -1,26 +1,305 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * TaleTalk design system — every color, font, size, radius, shadow and motion token lives here.
+ * Feel: a cozy library inside a modern app. Calm, warm, friendly, lots of white space.
+ * All text colors below pass WCAG AA on the background they are used on.
+ */
+
+/* Dark mode follows the phone / computer setting. */
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
 @theme inline {
+  /* ---- Fonts (loaded with next/font in app/layout.tsx) ---- */
+  --font-sans: var(--font-ui);
+  --font-heading: var(--font-ui);
+  --font-reading: var(--font-literata);
+  --font-lora: var(--font-lora-face);
+  --font-merriweather: var(--font-merriweather-face);
+  --font-readable: var(--font-atkinson);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- Type scale: 12 / 14 / 16 / 18 / 22 / 28 / 36 px ---- */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.35;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.25;
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 1.15;
+  --text-reading: 1.1875rem; /* 19px reading text */
+  --text-reading--line-height: 1.7;
+
+  /* ---- Shape: 12px buttons/inputs, 20px cards, 28px hero/sheets ---- */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.75rem; /* 12px */
+  --radius-xl: 1rem; /* 16px */
+  --radius-2xl: 1.25rem; /* 20px — cards */
+  --radius-3xl: 1.75rem; /* 28px — hero, sheets */
+  --radius-4xl: 2rem;
+  --radius-card: 1.25rem;
+  --radius-sheet: 1.75rem;
+
+  /* ---- Depth: soft shadows (low opacity, large blur) ---- */
+  --shadow-soft: 0 1px 2px rgb(28 25 23 / 0.04), 0 4px 16px rgb(28 25 23 / 0.05);
+  --shadow-lift: 0 2px 4px rgb(28 25 23 / 0.05), 0 12px 32px rgb(28 25 23 / 0.09);
+  --shadow-cover: 0 1px 2px rgb(0 0 0 / 0.12), 0 8px 20px -6px rgb(0 0 0 / 0.28);
+
+  /* ---- Motion ---- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+  --animate-fade-up: fade-up 200ms var(--ease-out-soft) both;
+  --animate-pulse-ring: pulse-ring 1.6s var(--ease-out-soft) infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  /* ---- Colors (values below in :root and the dark block) ---- */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Warm amber: streaks, rewards, highlights. `warm-text` is the readable amber for words. */
+  --color-warm: var(--warm);
+  --color-warm-foreground: var(--warm-foreground);
+  --color-warm-soft: var(--warm-soft);
+  --color-warm-text: var(--warm-text);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+
+  /* CEFR level badges: A1 green, A2 teal, B1 blue, B2 purple, C1 rose. */
+  --color-level-a1: var(--level-a1);
+  --color-level-a2: var(--level-a2);
+  --color-level-b1: var(--level-b1);
+  --color-level-b2: var(--level-b2);
+  --color-level-c1: var(--level-c1);
+
+  /* Reading themes (paper + ink). */
+  --color-paper-light: #fbfaf7;
+  --color-ink-light: #1f2328;
+  --color-paper-sepia: #f4ecd8;
+  --color-ink-sepia: #5b4636;
+  --color-paper-dark: #121212;
+  --color-ink-dark: #e6e1d6;
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Light: warm paper-gray page, white cards, deep indigo, warm amber. */
+:root {
+  --radius: 0.75rem;
+  --background: #f8f7f4;
+  --foreground: #1c1b22;
+  --card: #ffffff;
+  --card-foreground: #1c1b22;
+  --popover: #ffffff;
+  --popover-foreground: #1c1b22;
+
+  --primary: #4f46e5; /* indigo — 6.3:1 with white text */
+  --primary-foreground: #ffffff;
+  --primary-soft: #eef0ff;
+  --secondary: #efeee9;
+  --secondary-foreground: #2a2833;
+  --muted: #f1f0ec;
+  --muted-foreground: #5f5d66; /* 6.1:1 on the page */
+  --accent: #eeedf9;
+  --accent-foreground: #312e81;
+  --destructive: #c8312b;
+  --destructive-soft: #fdeceb;
+  --border: #e7e5df;
+  --input: #dcdad3;
+  --ring: #6366f1;
+
+  --warm: #f59e0b;
+  --warm-foreground: #2b1a03;
+  --warm-soft: #fff4dc;
+  --warm-text: #a1500a; /* 5.3:1 on warm-soft */
+  --success: #166534;
+  --success-soft: #e8f6ec;
+  --warning: #a1500a;
+  --warning-soft: #fff4dc;
+
+  --level-a1: #166534;
+  --level-a2: #0f766e;
+  --level-b1: #1d4ed8;
+  --level-b2: #7e22ce;
+  --level-c1: #be123c;
+
+  --chart-1: #4f46e5;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #a855f7;
+  --chart-5: #f43f5e;
+
+  --sidebar: #fdfcfa;
+  --sidebar-foreground: #2a2833;
+  --sidebar-primary: #4f46e5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #efeee9;
+  --sidebar-accent-foreground: #1c1b22;
+  --sidebar-border: #ebe9e3;
+  --sidebar-ring: #6366f1;
+}
+
+/* Dark: deep blue-black page, soft (not pure white) text, lighter indigo. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f1115;
+    --foreground: #e7e5e0;
+    --card: #171a21;
+    --card-foreground: #e7e5e0;
+    --popover: #1d2029;
+    --popover-foreground: #e7e5e0;
+
+    --primary: #8b8cf8;
+    --primary-foreground: #11111d;
+    --primary-soft: #1f2140;
+    --secondary: #22252e;
+    --secondary-foreground: #e7e5e0;
+    --muted: #1f222a;
+    --muted-foreground: #a4a2ab; /* 7:1 on the page */
+    --accent: #252845;
+    --accent-foreground: #e0e1ff;
+    --destructive: #f07167;
+    --destructive-soft: #3a1c1c;
+    --border: rgb(255 255 255 / 0.09);
+    --input: rgb(255 255 255 / 0.15);
+    --ring: #8b8cf8;
+
+    --warm: #fbbf24;
+    --warm-foreground: #241602;
+    --warm-soft: #33260c;
+    --warm-text: #fcd34d;
+    --success: #4ade80;
+    --success-soft: #14291c;
+    --warning: #fcd34d;
+    --warning-soft: #33260c;
+
+    --level-a1: #4ade80;
+    --level-a2: #2dd4bf;
+    --level-b1: #60a5fa;
+    --level-b2: #c084fc;
+    --level-c1: #fb7185;
+
+    --chart-1: #8b8cf8;
+    --chart-2: #34d399;
+    --chart-3: #fbbf24;
+    --chart-4: #c084fc;
+    --chart-5: #fb7185;
+
+    --sidebar: #12141a;
+    --sidebar-foreground: #dedcd6;
+    --sidebar-primary: #8b8cf8;
+    --sidebar-primary-foreground: #11111d;
+    --sidebar-accent: #1f222a;
+    --sidebar-accent-foreground: #f1efea;
+    --sidebar-border: rgb(255 255 255 / 0.07);
+    --sidebar-ring: #8b8cf8;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The ring around the mic button while listening. */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    color-scheme: light dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* One stroke width for every lucide icon. */
+  svg.lucide {
+    stroke-width: 2;
+  }
+}
+
+/* Respect "reduce motion": no animations, no smooth scroll. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* The only gradient: Today hero card + full-screen player. Same deep indigo in light and dark,
+   so white text always passes AA (≥ 7:1). */
+@utility bg-hero {
+  background-image:
+    radial-gradient(120% 90% at 100% 0%, rgb(124 58 237 / 0.55), transparent 60%),
+    linear-gradient(135deg, #4338ca 0%, #3730a3 55%, #312e81 100%);
+  color: #ffffff;
 }
