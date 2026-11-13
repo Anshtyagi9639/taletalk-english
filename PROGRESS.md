@@ -251,6 +251,11 @@ How: production build, 27 pages × 375/820/1180/1440 px × light/dark (216 scree
   "Interviewer · Hr"; stat labels cut ("Minutes re…"); cover tint not taken from Gutenberg covers;
   "Find your level" card shows even when a level is set; shelves repeat the same books.
 
+### ✅ Step 3 — Fix plan + 2 directions (done; waiting for your choice)
+Preview pages with demo data (not linked in the menu): `/design/today-a|b`, `/design/library-a|b`,
+`/design/reader-a|b`, `/design/player-a|b` (`components/design/directions/`). A = "Calm focus",
+B = "Warm & playful". The chosen one becomes the real page in Step 4; the previews are then removed.
+
 ## ✅ REDESIGN Step 4 — Page-by-page redesign (done; waiting for your "OK")
 Every feature kept; every page now uses the Step 3 design system.
 - **Today**: hero (greeting by time, date, streak, level, 2 goal rings, 7-day streak dots); "Continue" card
